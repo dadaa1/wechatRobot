@@ -5,7 +5,7 @@ const messageHandle = (bot, msg) => {
   const contact = bot.contacts[msg.FromUserName];
   const displayName = contact.getDisplayName();
   fs.appendFileSync(
-    './msg.json',
+    './cache/msg.json',
     JSON.stringify(msg, null, '\t') + ',',
     'utf8'
   );

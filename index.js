@@ -66,10 +66,10 @@ bot.on('contacts-updated', contacts => {
       });
     }
   });
-  fs.writeFileSync('./qun.json', JSON.stringify(qun), 'utf8');
-  fs.writeFileSync('./ren.json', JSON.stringify(geren), 'utf8');
-  fs.writeFileSync('./hao.json', JSON.stringify(gongzhonghao), 'utf8');
-  fs.writeFileSync('./data.json', JSON.stringify(bot.contacts), 'utf8');
+  fs.writeFileSync('./cache/qun.json', JSON.stringify(qun), 'utf8');
+  fs.writeFileSync('./cache/ren.json', JSON.stringify(geren), 'utf8');
+  fs.writeFileSync('./cache/hao.json', JSON.stringify(gongzhonghao), 'utf8');
+  fs.writeFileSync('./cache/data.json', JSON.stringify(bot.contacts), 'utf8');
   console.log('联系人数量：', Object.keys(bot.contacts).length);
 });
 
