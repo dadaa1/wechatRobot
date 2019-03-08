@@ -43,35 +43,35 @@ bot.on('logout', () => {
   // fs.unlinkSync('./sync-data.json');
 });
 
-/**
- * 联系人更新事件，参数为被更新的联系人列表
- */
-bot.on('contacts-updated', contacts => {
-  // console.log(contacts);
-  contacts.forEach(item => {
-    if (bot.Contact.isPublicContact(item)) {
-      gongzhonghao.push({
-        id: item.UserName,
-        value: item.NickName
-      });
-    } else if (bot.Contact.isRoomContact(item)) {
-      qun.push({
-        id: item.UserName,
-        value: item.NickName
-      });
-    } else if (!bot.Contact.isSelf(item) && !bot.Contact.isSpContact(item)) {
-      geren.push({
-        id: item.UserName,
-        value: item.RemarkName || item.NickName
-      });
-    }
-  });
-  fs.writeFileSync('./cache/qun.json', JSON.stringify(qun), 'utf8');
-  fs.writeFileSync('./cache/ren.json', JSON.stringify(geren), 'utf8');
-  fs.writeFileSync('./cache/hao.json', JSON.stringify(gongzhonghao), 'utf8');
-  fs.writeFileSync('./cache/data.json', JSON.stringify(bot.contacts), 'utf8');
-  console.log('联系人数量：', Object.keys(bot.contacts).length);
-});
+// /**
+//  * 联系人更新事件，参数为被更新的联系人列表
+//  */
+// bot.on('contacts-updated', contacts => {
+//   // console.log(contacts);
+//   contacts.forEach(item => {
+//     if (bot.Contact.isPublicContact(item)) {
+//       gongzhonghao.push({
+//         id: item.UserName,
+//         value: item.NickName
+//       });
+//     } else if (bot.Contact.isRoomContact(item)) {
+//       qun.push({
+//         id: item.UserName,
+//         value: item.NickName
+//       });
+//     } else if (!bot.Contact.isSelf(item) && !bot.Contact.isSpContact(item)) {
+//       geren.push({
+//         id: item.UserName,
+//         value: item.RemarkName || item.NickName
+//       });
+//     }
+//   });
+//   fs.writeFileSync('./cache/qun.json', JSON.stringify(qun), 'utf8');
+//   fs.writeFileSync('./cache/ren.json', JSON.stringify(geren), 'utf8');
+//   fs.writeFileSync('./cache/hao.json', JSON.stringify(gongzhonghao), 'utf8');
+//   fs.writeFileSync('./cache/data.json', JSON.stringify(bot.contacts), 'utf8');
+//   console.log('联系人数量：', Object.keys(bot.contacts).length);
+// });
 
 /**
  * 如何处理会话消息
@@ -88,5 +88,5 @@ bot.on('message', msg => {
  * 错误事件，参数一般为Error对象
  */
 bot.on('error', err => {
-  console.error('错误：', err.tips);
+  // console.error('错误：', err.tips);
 });
