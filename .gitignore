@@ -78,3 +78,9 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+qun.json
+ren.json
+one.json
+hao.json
+msg.json

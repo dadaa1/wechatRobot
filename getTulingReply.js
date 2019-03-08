@@ -9,10 +9,9 @@ const tulingReplyMsg = msg => {
     superagent
       .post(url)
       .send(createParams(msg))
-      .end((err, res) => {
+      .end((err, resp) => {
         if (err) rej(err);
-        console.log('返回内容', res.body);
-        res(res.body);
+        res(JSON.parse(resp.text).results[0].values.text);
       });
   });
 };
@@ -27,7 +26,7 @@ function createParams(text) {
     },
     userInfo: {
       apiKey: '59e806aacfea415ebf262a16754f129c',
-      userId: ''
+      userId: '345'
     }
   };
 }

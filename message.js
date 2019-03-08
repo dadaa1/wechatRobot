@@ -1,5 +1,5 @@
 const fs = require('fs');
-const tulingReply = require('./getTulingReply');
+const { tulingReplyMsg } = require('./getTulingReply');
 let flag = false;
 const messageHandle = (bot, msg) => {
   const contact = bot.contacts[msg.FromUserName];
@@ -46,14 +46,13 @@ function addFriendRequest(bot, msg) {
 
 function replyOnePublicMsg(bot, msg, displayName) {
   if (displayName === '[群] 程序员保健室') {
-    const newMsg = msg.Content.split(':\\n')[1];
-    console.log('收到消息了', newMsg);
+    const newMsg = msg.Content.split(':\n')[1];
     if (msg.MsgType === bot.CONF.MSGTYPE_TEXT) {
       if (newMsg === '关闭机器人') {
         flag = true;
         return;
       }
-      tulingReply(newMsg)
+      tulingReplyMsg(newMsg)
         .then(res => {
           return bot.sendMsg(res, msg.FromUserName);
         })
