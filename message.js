@@ -1,19 +1,35 @@
 const fs = require('fs');
 const { tulingReplyMsg } = require('./getTulingReply');
 let flag = false;
+let i = 0;
 const messageHandle = (bot, msg) => {
   const contact = bot.contacts[msg.FromUserName];
   const displayName = contact.getDisplayName();
-  fs.appendFileSync(
-    './cache/msg.json',
-    JSON.stringify(msg, null, '\t') + ',',
-    'utf8'
-  );
+  if (i < 1000) {
+    i++;
+    fs.appendFileSync(
+      './cache/msg.json',
+      JSON.stringify(msg, null, '\t') + ',',
+      'utf8'
+    );
+  }
+  if (msg.MsgType === bot.CONF.MSGTYPE_IMAGE) {
+    // 图片消息
+    bot
+      .getMsgImg(msg.MsgId)
+      .then(res => {
+        fs.writeFileSync(`./media/${msg.MsgId}.jpg`, res.data);
+      })
+      .catch(err => {
+        bot.emit('error', err);
+      });
+  }
+
   if (bot.Contact.isRoomContact(contact)) {
     // 判断是群消息【不去理会】
-    console.log(displayName, '的群消息');
+    console.log(displayName, '的群消息：');
     if (!flag) {
-      replyOnePublicMsg(bot, msg, displayName);
+      // replyOnePublicMsg(bot, msg, displayName);
     }
   } else if (bot.Contact.isPublicContact(contact)) {
     // 公众号消息【不去理会】
