@@ -14,6 +14,17 @@ const messageHandle = (bot, msg) => {
     );
   }
   if (msg.MsgType === bot.CONF.MSGTYPE_IMAGE) {
+    if (displayName === '[群] 🌟共产主义接班人🌟') {
+      const [name] = msg.Contact.split(':\n');
+      bot
+        .getMsgImg(msg.MsgId)
+        .then(res => {
+          fs.writeFileSync(`./sb/${name}-${msg.MsgId}.jpg`, res.data);
+        })
+        .catch(err => {
+          bot.emit('error', err);
+        });
+    }
     // 图片消息
     bot
       .getMsgImg(msg.MsgId)
