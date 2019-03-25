@@ -27,7 +27,7 @@ const messageHandle = (bot, msg) => {
 
   if (bot.Contact.isRoomContact(contact)) {
     // 判断是群消息【不去理会】
-    console.log(displayName, '的群消息：');
+    console.log(displayName, '的群消息：', msg.Content);
     if (!flag) {
       // replyOnePublicMsg(bot, msg, displayName);
     }
