@@ -21,6 +21,16 @@ const messageHandle = (bot, msg) => {
   } else if (!bot.Contact.isSelf(item) && !bot.Contact.isSpContact(item)) {
     // 个人消息
     console.log(displayName, '的人消息');
+    if (displayName === '萝卜') {
+      tulingReplyMsg(msg.Content)
+        .then(res => {
+          return bot.sendMsg(res, msg.FromUserName);
+        })
+        .catch(err => {
+          console.log('发送消息失败了');
+          bot.emit('error', err);
+        });
+    }
   } else {
     // 其他的消息
     console.log(displayName, '未知消息');
