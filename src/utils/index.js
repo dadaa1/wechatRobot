@@ -1,9 +1,5 @@
-const fs = require('fs');
-const path = require('path');
 const MessageType = require('./messageType');
-const warn = (...arg) => {
-  console.log(...arg);
-};
+const createAndAppend = require('./file');
 
 function debounce(method = () => {}, wait = 250) {
   let timer = null;
@@ -16,35 +12,6 @@ function debounce(method = () => {}, wait = 250) {
       method.apply(this, arg);
     }, wait);
   };
-}
-function createAndAppend(dir, name, data) {
-  return new Promise((res, rej) => {
-    fs.stat(dir, (err, stats) => {
-      if (err) {
-        fs.mkdir(dir, { recursive: true }, err => {
-          if (err) {
-            warn('创建文件夹错误', err);
-            rej(err);
-          }
-          fs.appendFile(path.join(dir, name), data, err => {
-            if (err) {
-              warn('写文件错误', err);
-              rej(err);
-            }
-            res();
-          });
-        });
-      }
-      if (stats.isDirectory()) {
-        fs.appendFile(path.join(dir, name), data, err => {
-          if (err) {
-            warn('写文件错误', err);
-            rej(err);
-          }
-        });
-      }
-    });
-  });
 }
 
 module.exports = {

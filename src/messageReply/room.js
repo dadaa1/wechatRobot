@@ -1,10 +1,10 @@
-const { createAndAppend, MessageType } = require('../utils');
+const { MessageType, createAndAppend } = require('../utils');
 class Room extends MessageType {
   constructor(bot, msg) {
-    super();
+    super(bot, msg);
     this.contact = bot.contacts[msg.FromUserName];
     this.displayName = this.contact.getDisplayName();
-    super.init(bot, msg);
+    this.init(bot, msg);
   }
   text(bot, msg) {
     const [name, content] = msg.Content.split(':\n');
@@ -13,28 +13,23 @@ class Room extends MessageType {
   image(bot, msg) {
     bot
       .getMsgImg(msg.MsgId)
-      .then(res => {
-        createAndAppend(
-          '../../cache/qun/' + this.displayName,
-          `${msg.MsgId}.jpg`,
-          res.data
-        )
-          .then(() => {
-            console.log('文件保存成功');
-          })
-          .catch(() => {
-            console.log(this.displayName, '的图片保存失败');
-          });
+      .then(res =>
+        createAndAppend('群/' + this.displayName, `${msg.MsgId}.jpg`, res.data)
+      )
+      .then(() => {
+        console.log('文件保存成功');
       })
       .catch(err => {
-        console.log(err);
+        console.log('文件保存失败');
         bot.emit('error', err);
       });
   }
   video() {}
   andio() {}
   file() {}
-  emoji() {}
+  emoji() {
+    console.log('有表情消息');
+  }
   other() {}
 }
 

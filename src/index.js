@@ -60,5 +60,5 @@ bot.on('message', msg => {
  * 错误事件，参数一般为Error对象
  */
 bot.on('error', err => {
-  console.log('发生了未知的错误');
+  console.log('发生了未知的错误', err);
 });
