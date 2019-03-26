@@ -1,4 +1,5 @@
-var colors = require('colors');
+require('colors');
+const fs = require('fs');
 function logger(bot, msg) {
   // console.log('123'.red);
   const contact = bot.contacts[msg.FromUserName];
@@ -6,7 +7,7 @@ function logger(bot, msg) {
 
   if (msg.MsgType === bot.CONF.MSGTYPE_IMAGE) {
     if (displayName === '[群] 🌟共产主义接班人🌟') {
-      console.log('谁的照片');
+      console.log('谁的照片', displayName);
       bot
         .getMsgImg(msg.MsgId)
         .then(res => {

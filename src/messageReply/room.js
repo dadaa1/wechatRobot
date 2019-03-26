@@ -22,7 +22,7 @@ class Room extends MessageType {
           .then(() => {
             console.log('文件保存成功');
           })
-          .catch(e => {
+          .catch(() => {
             console.log(this.displayName, '的图片保存失败');
           });
       })
@@ -31,11 +31,11 @@ class Room extends MessageType {
         bot.emit('error', err);
       });
   }
-  video(bot, msg) {}
-  andio(bot, msg) {}
-  file(bot, msg) {}
-  emoji(bot, msg) {}
-  other(bot, msg) {}
+  video() {}
+  andio() {}
+  file() {}
+  emoji() {}
+  other() {}
 }
 
 module.exports = (bot, msg) => {
