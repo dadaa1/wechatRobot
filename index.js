@@ -1,7 +1,22 @@
 const Wechat = require('wechat4u');
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
-const { messageHandle } = require('./message');
+const path = require('path');
+let message = require('./message.js');
+
+fs.watch(
+  path.join(__dirname, 'message.js'),
+  { encoding: 'utf-8' },
+  (eventType, filename) => {
+    delete require.cache[require.resolve('./message.js')];
+    try {
+      message = require('./message');
+      console.log('我更新了');
+    } catch (e) {
+      console.log('更新没成功呢');
+    }
+  }
+);
 
 const bot = new Wechat();
 bot.start();
@@ -81,7 +96,7 @@ bot.on('message', msg => {
    * 获取消息时间
    */
   console.log(`----------${msg.getDisplayTime()}----------`);
-  messageHandle(bot, msg);
+  message.messageHandle(bot, msg);
 });
 
 /**

@@ -1,8 +1,14 @@
 const fs = require('fs');
+console.log('123');
 const { tulingReplyMsg } = require('./getTulingReply');
 let flag = false;
 let i = 0;
 const messageHandle = (bot, msg) => {
+  // fs.appendFileSync(
+  //   './cache/cont.json',
+  //   JSON.stringify(bot.contacts, null, '\t') + ',',
+  //   'utf8'
+  // );
   const contact = bot.contacts[msg.FromUserName];
   const displayName = contact.getDisplayName();
   if (i < 1000) {
@@ -14,12 +20,17 @@ const messageHandle = (bot, msg) => {
     );
   }
   if (msg.MsgType === bot.CONF.MSGTYPE_IMAGE) {
+    console.log(
+      displayName,
+      '是不是',
+      displayName === '[群] 🌟共产主义接班人🌟'
+    );
     if (displayName === '[群] 🌟共产主义接班人🌟') {
-      const [name] = msg.Contact.split(':\n');
+      console.log('谁的照片');
       bot
         .getMsgImg(msg.MsgId)
         .then(res => {
-          fs.writeFileSync(`./sb/${name}-${msg.MsgId}.jpg`, res.data);
+          fs.writeFileSync(`./sb/${msg.MsgId}.jpg`, res.data);
         })
         .catch(err => {
           bot.emit('error', err);
@@ -45,7 +56,10 @@ const messageHandle = (bot, msg) => {
   } else if (bot.Contact.isPublicContact(contact)) {
     // 公众号消息【不去理会】
     console.log(displayName, '的公众号消息');
-  } else if (!bot.Contact.isSelf(item) && !bot.Contact.isSpContact(item)) {
+  } else if (
+    !bot.Contact.isSelf(contact) &&
+    !bot.Contact.isSpContact(contact)
+  ) {
     // 个人消息
     console.log(displayName, '的人消息');
     if (displayName === '萝卜') {
@@ -58,6 +72,8 @@ const messageHandle = (bot, msg) => {
           bot.emit('error', err);
         });
     }
+  } else if (bot.Contact.isSelf(contact)) {
+    console.log('个人消息');
   } else {
     // 其他的消息
     console.log(displayName, '未知消息');
