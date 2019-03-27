@@ -25,7 +25,7 @@ fs.watch(
 console.log('我手动触发更新了 ');
 
 function messageHandle(bot, msg) {
-  logger(bot, msg);
+  // logger(bot, msg);
   const contact = bot.contacts[msg.FromUserName];
   if (bot.Contact.isRoomContact(contact)) {
     // 群消息

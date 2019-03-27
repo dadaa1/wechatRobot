@@ -1,3 +1,4 @@
+const createAndAppend = require('./file');
 class MessageType {
   constructor(bot, msg) {
     this.bot = bot;
@@ -55,6 +56,18 @@ class MessageType {
       this.other(bot, msg);
       break;
     }
+  }
+  saveImg(dir, name) {
+    this.bot
+      .getMsgImg(this.msg.MsgId)
+      .then(res => createAndAppend(dir, name, res.data))
+      .then(() => {
+        console.log(`${name}保存成功`);
+      })
+      .catch(err => {
+        console.log(`${name}图片保存失败`);
+        this.bot.emit('error', err);
+      });
   }
 }
 module.exports = MessageType;
