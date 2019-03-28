@@ -1,8 +1,10 @@
+require('colors');
 const Wechat = require('wechat4u');
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 const path = require('path');
 const utils = require('./utils/index');
+let activeTask = require('./activeTask.js');
 let message = require('./message.js');
 const reRequire = utils.debounce(() => {
   delete require.cache[require.resolve('./message.js')];
@@ -16,6 +18,20 @@ const reRequire = utils.debounce(() => {
 
 fs.watch(path.join(__dirname, 'message.js'), { encoding: 'utf-8' }, () => {
   reRequire();
+});
+
+const reRequireTask = utils.debounce(() => {
+  delete require.cache[require.resolve('./activeTask.js')];
+  try {
+    activeTask = require('./activeTask');
+    console.log('task我更新了');
+  } catch (e) {
+    console.log('task更新没成功呢');
+  }
+}, 200);
+
+fs.watch(path.join(__dirname, 'activeTask.js'), { encoding: 'utf-8' }, () => {
+  reRequireTask();
 });
 
 const bot = new Wechat();
@@ -36,6 +52,7 @@ bot.on('uuid', uuid => {
  */
 bot.on('login', () => {
   console.log('登录成功');
+  activeTask(bot);
 });
 
 /**

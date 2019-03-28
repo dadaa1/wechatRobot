@@ -1,4 +1,3 @@
-const { logger } = require('./log/index');
 const fs = require('fs');
 const path = require('path');
 const {
@@ -16,16 +15,29 @@ fs.watch(
     delete require.cache[require.resolve('./messageReply/room.js')];
     try {
       roomMessageHandle = require('./messageReply/room.js');
-      console.log('room我更新了');
+      // console.log('room我更新了');
     } catch (e) {
       console.log('room更新没成功呢');
     }
   }
 );
+
+let { logger } = require('./log/index.js');
+fs.watch(path.join(__dirname, 'log', 'index.js'), { encoding: 'utf-8' }, () => {
+  delete require.cache[require.resolve('./log/index.js')];
+  try {
+    const log = require('./log/index.js');
+    logger = log.logger;
+    // console.log('log我更新了');
+  } catch (e) {
+    console.log('log更新没成功呢');
+  }
+});
+
 console.log('我手动触发更新了 ');
 
 function messageHandle(bot, msg) {
-  // logger(bot, msg);
+  logger(bot, msg);
   const contact = bot.contacts[msg.FromUserName];
   if (bot.Contact.isRoomContact(contact)) {
     // 群消息

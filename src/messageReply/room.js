@@ -1,9 +1,9 @@
 const moment = require('moment');
-const { MessageType, createAndAppend } = require('../utils');
-const createCsv = require('../utils/createCsv');
+const MessageType = require('./base/messageType');
+
 class Room extends MessageType {
   constructor(bot, msg) {
-    super(bot, msg);
+    super();
     this.contact = bot.contacts[msg.FromUserName];
     this.displayName = this.contact.getDisplayName();
     const [name, content] = msg.Content.split(':\n');
@@ -12,41 +12,57 @@ class Room extends MessageType {
     this.init(bot, msg);
   }
   text(bot, msg) {
-    console.log(`${this.displayName}|${this.name}:\n${this.content}`);
-    const csv = createCsv(this.name, this.content, msg.MsgId);
-    createAndAppend('群/' + this.displayName, '聊天记录.csv', csv)
-      .then(() => {
-        console.log('写记录成功');
-      })
-      .catch(e => {
-        console.log('写记录失败', e);
-      });
+    // console.log(`${this.displayName}|${this.name}:\n${this.content}`);
+    this.saveText(
+      bot,
+      msg,
+      '群/' + this.displayName,
+      this.name,
+      this.content
+    ).then(() => {
+      console.log('写记录成功'.red);
+    });
   }
   image(bot, msg) {
-    bot
-      .getMsgImg(msg.MsgId)
-      .then(res =>
-        createAndAppend(
-          '群/' + this.displayName,
-          `[${this.name}]${moment().format('YYYY-MM-DD_hh:mm:ss')}|${
-            msg.MsgId
-          }.jpg`,
-          res.data
-        )
-      )
-      .then(() => {
-        console.log('文件保存成功');
-      })
-      .catch(err => {
-        console.log('文件保存失败');
-        bot.emit('error', err);
-      });
+    this.saveText(
+      bot,
+      msg,
+      '群/' + this.displayName,
+      this.name,
+      '[图片消息]'
+    ).then(() => {
+      console.log('图片写记录成功');
+    });
+    this.saveImg(
+      bot,
+      msg,
+      '群/' + this.displayName,
+      `${msg.MsgId}[${this.name}]${moment().format('YYYY-MM-DD_hh-mm-ss')}.jpg`
+    ).then(() => {
+      console.log('图片保存成功');
+    });
   }
   video() {}
   andio() {}
   file() {}
-  emoji() {
-    console.log('有表情消息');
+  emoji(bot, msg) {
+    this.saveText(
+      bot,
+      msg,
+      '群/' + this.displayName,
+      this.name,
+      '[表情消息]'
+    ).then(() => {
+      console.log('表情写记录成功'.red);
+    });
+    this.saveImg(
+      bot,
+      msg,
+      '群/' + this.displayName,
+      `${msg.MsgId}[${this.name}]${moment().format('YYYY-MM-DD_hh-mm-ss')}.gif`
+    ).then(() => {
+      console.log('表情保存成功'.red);
+    });
   }
   other() {}
 }

@@ -1,9 +1,7 @@
-const createAndAppend = require('./file');
+const createAndAppend = require('../../utils/file');
+const createCsv = require('../../utils/createCsv');
 class MessageType {
-  constructor(bot, msg) {
-    this.bot = bot;
-    this.msg = msg;
-  }
+  constructor() {}
   text() {}
   image() {}
   video() {}
@@ -57,16 +55,19 @@ class MessageType {
       break;
     }
   }
-  saveImg(dir, name) {
-    this.bot
-      .getMsgImg(this.msg.MsgId)
+  saveText(bot, msg, dir, who, contant) {
+    const csv = createCsv(who, contant, msg.MsgId);
+    return createAndAppend(dir, '聊天记录.csv', csv).catch(err => {
+      console.log('写记录失败', err);
+    });
+  }
+  saveImg(bot, msg, dir, name) {
+    return bot
+      .getMsgImg(msg.MsgId)
       .then(res => createAndAppend(dir, name, res.data))
-      .then(() => {
-        console.log(`${name}保存成功`);
-      })
       .catch(err => {
         console.log(`${name}图片保存失败`);
-        this.bot.emit('error', err);
+        bot.emit('error', err);
       });
   }
 }

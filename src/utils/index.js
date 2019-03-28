@@ -1,4 +1,3 @@
-const MessageType = require('./messageType');
 const createAndAppend = require('./file');
 
 function debounce(method = () => {}, wait = 250) {
@@ -16,6 +15,5 @@ function debounce(method = () => {}, wait = 250) {
 
 module.exports = {
   debounce,
-  createAndAppend,
-  MessageType
+  createAndAppend
 };

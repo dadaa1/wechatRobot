@@ -1,8 +1,9 @@
-const MessageType = require('../utils/messageType');
+const MessageType = require('./base/messageType');
 
 class Person extends MessageType {
   constructor(bot, msg) {
-    super(bot, msg);
+    super();
+    this.init(bot, msg);
   }
   text(bot, msg) {}
   image(bot, msg) {}
