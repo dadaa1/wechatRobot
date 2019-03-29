@@ -94,10 +94,9 @@ const {
   oneSelfMessageHandle,
   publicMessageHandle
 } = require('./messageReply');
-console.log('我手动触发更新了 ');
 let state = true;
 let flag = true;
-function lister(bot) {
+function lister(bot, msg) {
   if (flag) {
     flag = false;
     bot.on('开启机器人', () => {
@@ -109,15 +108,15 @@ function lister(bot) {
       state = false;
     });
   }
+  if (state) {
+    specialReply(bot, msg);
+  }
 }
 
 function messageHandle(bot, msg) {
   global.bot = bot;
   global.msg = msg;
-  lister(bot);
-  if (state) {
-    specialReply(bot, msg);
-  }
+  lister(bot, msg);
   logger(bot, msg);
   const contact = bot.contacts[msg.FromUserName];
   if (bot.Contact.isRoomContact(contact)) {

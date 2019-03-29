@@ -1,11 +1,12 @@
 const { tulingReplyMsg } = require('../messageReply/base/getTulingReply');
+const getConfig = require('../utils/getConfig');
 
 module.exports = (bot, msg) => {
   const user = bot.contacts[msg.FromUserName];
   const type = msg.MsgType === bot.CONF.MSGTYPE_TEXT ? 'text' : 'other';
-  if (user.getDisplayName() === '井华' || user.getDisplayName() === '小鱼') {
+  const userList = getConfig().list;
+  if (userList.some(item => item === user.getDisplayName())) {
     if (type === 'text') {
-      console.log('kaish ');
       tulingReplyMsg(msg.Content)
         .then(data => {
           return bot.sendMsg(data, msg.FromUserName);

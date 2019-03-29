@@ -35,7 +35,7 @@ const message = require('./message.js');
 // });
 
 // const bot = new Wechat();
-const botPath = path.join(__dirname, 'sync-data.json');
+const botPath = path.join(process.cwd(), 'config', 'sync-data.json');
 let bot;
 /**
  * 尝试获取本地登录数据，免扫码

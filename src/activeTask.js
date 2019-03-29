@@ -1,12 +1,12 @@
 const schedule = require('node-schedule');
+const getConfig = require('./utils/getConfig');
 const str = '早上好';
+
 module.exports = bot => {
   const func = () => {
+    const userList = getConfig().list;
     Object.keys(bot.contacts).forEach(item => {
-      if (
-        bot.contacts[item].getDisplayName() === '小鱼' ||
-        bot.contacts[item].getDisplayName() === '井华'
-      ) {
+      if (userList.some(user => bot.contacts[item].getDisplayName() === user)) {
         bot
           .sendMsg(str, item)
           .catch(() => {
