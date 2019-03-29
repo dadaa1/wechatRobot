@@ -86,7 +86,7 @@
 //   }
 // });
 const { logger } = require('./log');
-const specialReply = require('./special');
+const robotReply = require('./robot');
 const {
   roomMessageHandle,
   personMessageHandle,
@@ -94,30 +94,12 @@ const {
   oneSelfMessageHandle,
   publicMessageHandle
 } = require('./messageReply');
-let state = true;
-let flag = true;
-function lister(bot, msg) {
-  if (flag) {
-    flag = false;
-    bot.on('开启机器人', () => {
-      console.log('开启机器人成功'.green);
-      state = true;
-    });
-    bot.on('关闭机器人', () => {
-      console.log('关闭机器人成功'.green);
-      state = false;
-    });
-  }
-  if (state) {
-    specialReply(bot, msg);
-  }
-}
 
 function messageHandle(bot, msg) {
   global.bot = bot;
   global.msg = msg;
-  lister(bot, msg);
   logger(bot, msg);
+  robotReply(bot, msg);
   const contact = bot.contacts[msg.FromUserName];
   if (bot.Contact.isRoomContact(contact)) {
     // 群消息

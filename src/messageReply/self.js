@@ -1,4 +1,4 @@
-const momnet = require('moment');
+// const momnet = require('moment');
 const { getConfig, setConfig } = require('../utils/getConfig');
 
 module.exports = (bot, msg) => {
@@ -20,7 +20,15 @@ module.exports = (bot, msg) => {
       const userList = getConfig();
       userList.list.push(msg.Content.split(' ')[1]);
       setConfig(userList);
-      bot.sendMsg(JSON.stringify(userList), msg.ToUserName);
+      bot.sendMsg(String(userList.list), msg.ToUserName);
+    }
+    if (msg.Content.split(' ')[0] === '删除') {
+      const userList = getConfig();
+      userList.list = userList.list.filter(
+        item => item !== msg.Content.split(' ')[1]
+      );
+      setConfig(userList);
+      bot.sendMsg(String(userList.list), msg.ToUserName);
     }
   }
 
