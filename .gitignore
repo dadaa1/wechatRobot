@@ -86,6 +86,6 @@ msg.json
 data.json
 cache/
 media/
-sb/
 output/
 node_modules/
+config/sync-data.json

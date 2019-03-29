@@ -96,16 +96,21 @@ const {
 } = require('./messageReply');
 console.log('我手动触发更新了 ');
 let state = true;
+let flag = true;
 function lister(bot) {
-  bot.on('开启机器人', () => {
-    console.log('开启机器人成功'.green);
-    state = true;
-  });
-  bot.on('关闭机器人', () => {
-    console.log('关闭机器人成功'.green);
-    state = false;
-  });
+  if (flag) {
+    flag = false;
+    bot.on('开启机器人', () => {
+      console.log('开启机器人成功'.green);
+      state = true;
+    });
+    bot.on('关闭机器人', () => {
+      console.log('关闭机器人成功'.green);
+      state = false;
+    });
+  }
 }
+
 function messageHandle(bot, msg) {
   global.bot = bot;
   global.msg = msg;

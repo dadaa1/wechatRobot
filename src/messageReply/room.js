@@ -49,7 +49,7 @@ class Room extends MessageType {
     this.saveText(
       bot,
       msg,
-      '群/' + this.displayName + '/表情',
+      '群/' + this.displayName,
       this.name,
       '[表情消息]'
     ).then(() => {
@@ -58,7 +58,7 @@ class Room extends MessageType {
     this.saveImg(
       bot,
       msg,
-      '群/' + this.displayName,
+      '群/' + this.displayName + '/表情',
       `${msg.MsgId}[${this.name}]${moment().format('YYYY-MM-DD_hh-mm-ss')}.gif`
     ).then(() => {
       console.log('表情保存成功'.red);

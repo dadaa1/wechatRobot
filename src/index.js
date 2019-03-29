@@ -1,8 +1,8 @@
 require('colors');
 const Wechat = require('wechat4u');
 const qrcode = require('qrcode-terminal');
-// const fs = require('fs');
-// const path = require('path');
+const fs = require('fs');
+const path = require('path');
 // const utils = require('./utils/index');
 const activeTask = require('./activeTask.js');
 const message = require('./message.js');
@@ -34,8 +34,28 @@ const message = require('./message.js');
 //   reRequireTask();
 // });
 
-const bot = new Wechat();
-bot.start();
+// const bot = new Wechat();
+const botPath = path.join(__dirname, 'sync-data.json');
+let bot;
+/**
+ * 尝试获取本地登录数据，免扫码
+ * 这里演示从本地文件中获取数据
+ */
+try {
+  bot = new Wechat(require(botPath));
+} catch (e) {
+  bot = new Wechat();
+}
+
+/**
+ * 启动机器人
+ */
+if (bot.PROP.uin) {
+  // 存在登录数据时，可以随时调用restart进行重启
+  bot.restart();
+} else {
+  bot.start();
+}
 
 /**
  * uuid事件，参数为uuid，根据uuid生成二维码
@@ -51,14 +71,16 @@ bot.on('uuid', uuid => {
  * 登录成功事件
  */
 bot.on('login', () => {
-  console.log('登录成功');
   activeTask(bot);
+  fs.writeFileSync(botPath, JSON.stringify(bot.botData));
+  console.log('登录成功');
 });
 
 /**
  * 登出成功事件
  */
 bot.on('logout', () => {
+  fs.unlinkSync(botPath);
   console.log('登出成功');
 });
 
