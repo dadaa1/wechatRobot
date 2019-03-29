@@ -32,7 +32,7 @@ class Person extends MessageType {
     this.saveImg(
       bot,
       msg,
-      '好友/' + this.displayName,
+      '好友/' + this.displayName + '/图片',
       `${msg.MsgId}[${this.displayName}]${moment().format(
         'YYYY-MM-DD_hh-mm-ss'
       )}.jpg`
