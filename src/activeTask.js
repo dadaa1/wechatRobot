@@ -3,7 +3,10 @@ const str = '早上好';
 module.exports = bot => {
   const func = () => {
     Object.keys(bot.contacts).forEach(item => {
-      if (bot.contacts[item].getDisplayName() === '小鱼') {
+      if (
+        bot.contacts[item].getDisplayName() === '小鱼' ||
+        bot.contacts[item].getDisplayName() === '井华'
+      ) {
         bot
           .sendMsg(str, item)
           .catch(() => {

@@ -3,7 +3,7 @@ const { tulingReplyMsg } = require('../messageReply/base/getTulingReply');
 module.exports = (bot, msg) => {
   const user = bot.contacts[msg.FromUserName];
   const type = msg.MsgType === bot.CONF.MSGTYPE_TEXT ? 'text' : 'other';
-  if (user.getDisplayName() === '小鱼') {
+  if (user.getDisplayName() === '井华' || user.getDisplayName() === '小鱼') {
     if (type === 'text') {
       console.log('kaish ');
       tulingReplyMsg(msg.Content)

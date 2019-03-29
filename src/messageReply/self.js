@@ -1,8 +1,7 @@
 const momnet = require('moment');
 module.exports = (bot, msg) => {
-  const user = bot.contacts[msg.ToUserName];
-  const name = user.getDisplayName();
-  console.log(name.green);
+  // const user = bot.contacts[msg.ToUserName];
+  // const name = user.getDisplayName();
   if (msg.Content === '你好') {
     Object.keys(bot.contacts).forEach(key => {
       if (bot.contacts[key].getDisplayName() === '文件传输助手') {
