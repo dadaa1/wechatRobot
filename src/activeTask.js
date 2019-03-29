@@ -1,5 +1,5 @@
 const schedule = require('node-schedule');
-const getConfig = require('./utils/getConfig');
+const { getConfig } = require('./utils/getConfig');
 const str = '早上好';
 
 module.exports = bot => {

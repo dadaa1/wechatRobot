@@ -1,5 +1,5 @@
 const { tulingReplyMsg } = require('../messageReply/base/getTulingReply');
-const getConfig = require('../utils/getConfig');
+const { getConfig } = require('../utils/getConfig');
 
 module.exports = (bot, msg) => {
   const user = bot.contacts[msg.FromUserName];
